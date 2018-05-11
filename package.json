@@ -1,0 +1,43 @@
+{
+  "name": "byakko",
+  "version": "0.0.0",
+  "description": "Front-End da plataforma da Novel Mania",
+  "author": "Rubens Pereira do Nascimento <iorubenspn@gmail.com>",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novel-mania/byakko.git"
+  },
+  "keywords": [
+    "Novel",
+    "Mania",
+    "front-end",
+    "vuejs",
+    "CMS"
+  ],
+  "contributors": [
+    "Henrique Couto"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/novel-mania/byakko/issues"
+  },
+  "homepage": "https://github.com/novel-mania/byakko#readme",
+  "dependencies": {
+    "nuxt": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.15.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-vue": "^4.0.0"
+  }
+}
