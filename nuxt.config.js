@@ -3,11 +3,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'byakko',
+    title: 'Novel Mania • Light Novel &amp; WebNovel em português',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Front-End da plataforma da Novel Mania' }
+      { hid: 'description', name: 'description', content: 'Mergulhe na cultura oriental.Leia Light Novels & amp; WebNovels Chinesas, Japonesas e Coreanas em Português.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -17,6 +17,9 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  css: [
+    '@/assets/scss/byakko.scss',
+  ],
   /*
   ** Build configuration
   */
