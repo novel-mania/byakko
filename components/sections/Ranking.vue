@@ -1,0 +1,74 @@
+<template>
+  <section class="ranking">
+    <div class="title">
+      <h1 class="name">Ranking</h1>
+      <svg class="icon" width="30px" height="40px">
+        <path fill-rule="evenodd"  fill="rgb(51, 51, 51)"
+        d="M29.944,23.813 L29.916,23.421 C29.458,17.456 26.680,13.717 24.229,10.418 C21.960,7.364 20.000,4.727 20.000,0.835 C20.000,0.523 19.825,0.237 19.548,0.094 C19.269,-0.050 18.935,-0.027 18.682,0.157 C15.002,2.791 11.931,7.229 10.858,11.464 C10.114,14.412 10.015,17.727 10.001,19.916 C6.603,19.190 5.833,14.107 5.824,14.051 C5.786,13.788 5.625,13.558 5.391,13.433 C5.154,13.309 4.876,13.300 4.635,13.419 C4.457,13.505 0.261,15.637 0.017,24.151 C-0.000,24.434 -0.001,24.717 -0.001,25.001 C-0.001,33.272 6.729,40.002 15.000,40.002 C23.271,40.002 30.001,33.272 30.001,25.001 C30.001,24.587 29.973,24.199 29.944,23.813 ZM15.000,38.335 C12.243,38.335 10.000,35.946 10.000,33.009 C10.000,32.909 9.999,32.807 10.006,32.684 C10.039,31.445 10.275,30.600 10.533,30.038 C11.016,31.076 11.881,32.030 13.284,32.030 C13.745,32.030 14.118,31.658 14.118,31.197 C14.118,30.011 14.142,28.642 14.438,27.406 C14.701,26.310 15.329,25.146 16.125,24.211 C16.479,25.424 17.169,26.405 17.843,27.363 C18.807,28.734 19.804,30.150 19.979,32.567 C19.990,32.710 20.001,32.854 20.001,33.009 C20.000,35.946 17.757,38.335 15.000,38.335 ZM20.267,37.246 C21.132,36.066 21.667,34.608 21.667,33.009 C21.667,32.812 21.655,32.630 21.631,32.289 C21.433,29.569 20.250,27.887 19.206,26.404 C18.317,25.141 17.549,24.049 17.549,22.502 C17.549,22.185 17.370,21.896 17.087,21.756 C16.805,21.614 16.465,21.646 16.213,21.837 C14.615,23.044 13.282,25.077 12.817,27.018 C12.579,28.014 12.496,29.090 12.466,29.976 C11.889,29.354 11.710,28.202 11.708,28.186 C11.671,27.919 11.506,27.685 11.266,27.560 C11.028,27.437 10.742,27.433 10.502,27.557 C10.292,27.665 8.447,28.722 8.341,32.614 C8.334,32.746 8.333,32.878 8.333,33.009 C8.333,34.608 8.868,36.066 9.733,37.246 C4.994,35.200 1.666,30.484 1.666,25.002 C1.666,24.752 1.665,24.503 1.682,24.225 C1.825,19.230 3.424,16.753 4.467,15.660 C5.195,18.264 7.101,21.668 10.833,21.668 C11.294,21.668 11.667,21.296 11.667,20.835 C11.667,18.046 11.729,14.823 12.475,11.873 C13.321,8.529 15.640,4.920 18.439,2.476 C18.904,6.045 20.848,8.662 22.891,11.412 C25.321,14.682 27.833,18.063 28.253,23.538 L28.282,23.937 C28.308,24.284 28.335,24.630 28.335,25.002 C28.334,30.483 25.007,35.200 20.267,37.246 Z"/>
+      </svg>
+    </div>
+    <base-carrousel class="novels">
+      <base-card
+        v-for="novel in novels"
+        :key="novel.id"
+        :info="novel"
+      />
+    </base-carrousel>
+  </section>
+</template>
+
+<script>
+import BaseCarrousel from '~/components/base/BaseCarrousel';
+import BaseCard from '~/components/base/BaseCard';
+
+export default {
+  name: 'NewComers',
+  data() {
+    const novels = [
+      { id: 1, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Ação' },
+      { id: 2, image: 'novel2.png', title: 'Desolate Era', categorie: 'Xianxia' },
+      { id: 3, image: 'novel3.png', title: 'The Great Ruler', categorie: 'Ação' },
+      { id: 4, image: 'novel4.png', title: 'Everyone Else is a Returnee', categorie: 'Shounen' },
+      { id: 5, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 6, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 7, image: 'novel3.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 8, image: 'novel4.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 9, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 10, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+    ]
+
+    return {
+      novels,
+    };
+  },
+  components: {
+    BaseCarrousel,
+    BaseCard,
+  },
+};
+</script>
+
+<style lang="scss">
+.ranking {
+  max-width: 1140px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  > .title {
+    display: flex;
+    align-items: center;
+
+    > .name {
+      margin-right: 10px;
+      font-size: 1.875rem;
+    }
+
+    > .icon {
+      margin-bottom: 10px;
+    }
+  }
+}
+</style>

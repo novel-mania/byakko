@@ -67,7 +67,6 @@ export default {
 <style lang="scss">
 .navbar {
   padding: 1rem;
-  display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -80,12 +79,10 @@ export default {
   margin-left: auto;
 
   > .items {
-    display: flex !important;
     flex-basis: auto;
     flex-grow: 1;
     align-items: center;
     display: flex;
-    flex-direction: column;
     padding-left: 0;
     margin-bottom: 0;
     flex-direction: row;
