@@ -25,16 +25,16 @@ export default {
   name: 'NewComers',
   data() {
     const novels = [
-      { id: 1, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Ação' },
-      { id: 2, image: 'novel2.png', title: 'Desolate Era', categorie: 'Xianxia' },
-      { id: 3, image: 'novel3.png', title: 'The Great Ruler', categorie: 'Ação' },
-      { id: 4, image: 'novel4.png', title: 'Everyone Else is a Returnee', categorie: 'Shounen' },
-      { id: 5, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
-      { id: 6, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
-      { id: 7, image: 'novel3.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
-      { id: 8, image: 'novel4.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
-      { id: 9, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
-      { id: 10, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção' },
+      { id: 1, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Ação', info: { likes: 345 } },
+      { id: 2, image: 'novel2.png', title: 'Desolate Era', categorie: 'Xianxia', info: { likes: 345 } },
+      { id: 3, image: 'novel3.png', title: 'The Great Ruler', categorie: 'Ação', info: { likes: 345 } },
+      { id: 4, image: 'novel4.png', title: 'Everyone Else is a Returnee', categorie: 'Shounen', info: { likes: 345 } },
+      { id: 5, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
+      { id: 6, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
+      { id: 7, image: 'novel3.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
+      { id: 8, image: 'novel4.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
+      { id: 9, image: 'novel1.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
+      { id: 10, image: 'novel2.png', title: 'Agaist the Gods', categorie: 'Romance de Ficção', info: { likes: 345 } },
     ]
 
     return {
