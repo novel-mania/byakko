@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "Front-End da plataforma da Novel Mania",
   "author": "Rubens Pereira do Nascimento <iorubenspn@gmail.com>",
+  "config": {
+    "nuxt": {
+      "port": "8090"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -32,7 +37,9 @@
   },
   "homepage": "https://github.com/novel-mania/byakko#readme",
   "dependencies": {
-    "nuxt": "^1.0.0"
+    "axios": "^0.18.0",
+    "nuxt": "^1.0.0",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

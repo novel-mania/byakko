@@ -69,12 +69,13 @@ export default {
   padding: 1rem;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  max-width: 1140px;
+  max-width: 1000px;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   margin-right: auto;
   margin-left: auto;
 
@@ -83,6 +84,7 @@ export default {
     flex-grow: 1;
     align-items: center;
     display: flex;
+    flex: 1;
     padding-left: 0;
     margin-bottom: 0;
     flex-direction: row;

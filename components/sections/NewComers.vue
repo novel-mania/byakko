@@ -55,10 +55,10 @@ export default {
 
 <style lang="scss">
 .new-comers {
-  max-width: 1140px;
+  max-width: 1000px;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   margin-right: auto;
   margin-left: auto;
 
@@ -81,9 +81,10 @@ export default {
     flex-grow: 1;
     align-items: center;
     display: flex;
+    padding-left: 20px;
 
     > .novels {
-      width: 70%;
+      width: 65%;
       margin-right: 30px;
     }
   }

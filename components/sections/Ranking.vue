@@ -50,10 +50,10 @@ export default {
 
 <style lang="scss">
 .ranking {
-  max-width: 1140px;
+  max-width: 1000px;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   margin-right: auto;
   margin-left: auto;
 
