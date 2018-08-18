@@ -1,41 +1,36 @@
 <template>
-  <section>
-    <h1>Novels</h1>
-    <base-table :data="novels">
-      <template slot-scope="props">
-        <base-table-column label="id">
-          {{ props.row.id }}
-        </base-table-column>
+  <div class="content">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item"><h1>Novels</h1></div>
+      </div>
+      <div class="level-right"></div>
+    </div>
+    <div class="content">
+      <b-table :data="novels">
+        <template slot-scope="props">
+          <b-table-column label="id">
+            {{ props.row.id }}
+          </b-table-column>
 
-        <base-table-column label="name">
-          {{ props.row.name }}
-        </base-table-column>
-
-        <base-table-column label="Categoria">
-          {{ props.row.categories.join(',') }}
-        </base-table-column>
-
-        <base-table-column label="Sinopse">
-          {{ props.row.sinopse }}
-        </base-table-column>
-      </template>
-    </base-table>
-  </section>
+          <b-table-column label="name">
+            {{ props.row.name }}
+          </b-table-column>
+          <b-table-column label="categories">
+            {{ props.row.categories.join(',') }}
+          </b-table-column>
+        </template>
+      </b-table>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import BaseTable from '~/components/base/BaseTable';
-import BaseTableColumn from '~/components/base/BaseTableColumn';
-
 export default {
   name: 'AdminNovels',
   layout: 'admin',
-  components: {
-    BaseTable,
-    BaseTableColumn,
-  },
   computed: {
     ...mapGetters({
       novels: 'getNovels',

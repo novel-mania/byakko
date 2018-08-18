@@ -10,15 +10,16 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Mergulhe na cultura oriental.Leia Light Novels & amp; WebNovels Chinesas, Japonesas e Coreanas em Português.' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: '//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css' }
     ]
   },
   /*
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
-  css: [
-    '@/assets/scss/byakko.scss',
+  plugins: [
+    { src: '~/plugins/buefy', ssr: false },
   ],
   /*
   ** Build configuration
