@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1>Novels</h1>
-    <base-table :data="novels">
+    <base-table :data="novels.chapters">
       <template slot-scope="props">
         <base-table-column label="id">
           {{ props.row.id }}
@@ -11,13 +11,6 @@
           {{ props.row.name }}
         </base-table-column>
 
-        <base-table-column label="Categoria">
-          {{ props.row.categories.join(',') }}
-        </base-table-column>
-
-        <base-table-column label="Sinopse">
-          {{ props.row.sinopse }}
-        </base-table-column>
       </template>
     </base-table>
   </section>
@@ -39,18 +32,24 @@ export default {
   computed: {
     ...mapGetters({
       novels: 'getNovels',
+      chapters: 'getChapters'
     }),
   },
   methods: {
     ...mapActions([
       'fetchNovels',
+      'fetchChapters'
     ]),
     async loadNovels() {
       await this.fetchNovels();
     },
+    async loadChapters() {
+      await this.fetchChapters();
+    },
   },
   mounted() {
     this.loadNovels();
+    this.loadChapters();
   },
 };
 </script>
