@@ -34,18 +34,24 @@ export default {
   computed: {
     ...mapGetters({
       novels: 'getNovels',
+      chapters: 'getChapters'
     }),
   },
   methods: {
     ...mapActions([
       'fetchNovels',
+      'fetchChapters'
     ]),
     async loadNovels() {
       await this.fetchNovels();
     },
+    async loadChapters() {
+      await this.fetchChapters();
+    },
   },
   mounted() {
     this.loadNovels();
+    this.loadChapters();
   },
 };
 </script>
