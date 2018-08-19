@@ -9,7 +9,10 @@ export const fetchNovels = async ({ commit }) => {
   commit(mutations.NOVELS, novels.data.data);
 };
 
-export const fetchChapters = async ({ commit }) => {
-  const chapters = await getChapters();
+export const fetchChapters = async ({ commit }, filters) => {
+  const chapters = await getChapters(filters);
   commit(mutations.CHAPTERS, chapters.data.data);
 };
+
+export const addChaptersFilter = ({commit}, filter) =>
+  commit(mutations.CHAPTER_FILTERS_ADD, filter);

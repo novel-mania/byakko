@@ -1,5 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { CHAPTER, CHAPTERS } from '../mutation-types';
+import {
+  CHAPTER,
+  CHAPTERS,
+  CHAPTER_FILTERS_ADD,
+} from '../mutation-types';
 
 const mutations = {
   [CHAPTER](state, data) {
@@ -8,8 +12,18 @@ const mutations = {
     }
   },
   [CHAPTERS](state, data) {
-    if (data && typeof data === 'object' && data.length) {
+    if (data && typeof data === 'object') {
       state.chapters = data;
+    }
+  },
+  [CHAPTER_FILTERS_ADD](state, data) {
+    if (data && typeof data === 'object') {
+      const exist = state.filters.findIndex(filter => filter.name === data.name);
+      if (exist >= 0) {
+        state.filters.splice(exist, 1, data);
+      } else {
+        state.filters.push(data);
+      }
     }
   },
 };
@@ -17,6 +31,7 @@ const mutations = {
 const state = {
   chapter: {},
   chapters: [],
+  filters: [],
 };
 
 export default {

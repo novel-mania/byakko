@@ -2,12 +2,12 @@
   <div class="content">
     <div class="level">
       <div class="level-left">
-        <div class="level-item"><h1>Novels</h1></div>
+        <div class="level-item"><h1>Capítulos</h1></div>
       </div>
       <div class="level-right"></div>
     </div>
     <div class="content">
-      <b-table :data="novels">
+      <b-table :data="chapters">
         <template slot-scope="props">
           <b-table-column label="id">
             {{ props.row.id }}
@@ -17,17 +17,16 @@
             {{ props.row.name }}
           </b-table-column>
 
-          <b-table-column label="Categorias">
-            {{ props.row.categories.join(',') }}
+          <b-table-column label="Novel">
+            {{ props.row.novel.name }}
+          </b-table-column>
+
+          <b-table-column label="Tradutores">
+            {{ props.row.translators.join(',') }}
           </b-table-column>
 
           <b-table-column label="Opções">
             <b-field>
-              <p class="control">
-                <button class="button" @click.prevent="showChapters(props.row.id)">
-                  <b-icon icon="view-list"></b-icon>
-                </button>
-              </p>
               <p class="control">
                 <button class="button">
                   <b-icon icon="pencil"></b-icon>
@@ -50,28 +49,24 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'AdminNovels',
+  name: 'AdminChapters',
   layout: 'admin',
   computed: {
     ...mapGetters({
-      novels: 'getNovels',
+      chapters: 'getChapters',
+      filters: 'getChaptersFilters',
     }),
   },
   methods: {
     ...mapActions([
-      'fetchNovels',
-      'addChaptersFilter',
+      'fetchChapters'
     ]),
-    async loadNovels() {
-      await this.fetchNovels();
-    },
-    showChapters(novel) {
-      this.addChaptersFilter({ name: 'novel', value: novel });
-      this.$router.push('/admin/chapters');
+    async loadChapters() {
+      await this.fetchChapters(this.filters);
     },
   },
   mounted() {
-    this.loadNovels();
+    this.loadChapters();
   },
 };
 </script>

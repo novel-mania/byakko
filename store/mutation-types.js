@@ -4,3 +4,5 @@ export const NOVELS = 'NOVELS';
 
 export const CHAPTER = 'CHAPTER';
 export const CHAPTERS = 'CHAPTERS';
+
+export const CHAPTER_FILTERS_ADD = 'CHAPTER_FILTERS_ADD';

@@ -4,6 +4,7 @@
     <ul class="menu-list">
       <li><nuxt-link to="/admin">Dashboard</nuxt-link></li>
       <li><nuxt-link to="/admin/novels">Novels</nuxt-link></li>
+      <li><nuxt-link to="/admin/chapters">Capítulos</nuxt-link></li>
     </ul>
   </aside>
 </template>
