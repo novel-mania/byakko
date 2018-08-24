@@ -20,6 +20,7 @@ module.exports = {
   loading: { color: '#3B8070' },
   plugins: [
     { src: '~/plugins/buefy', ssr: false },
+    { src: '~/plugins/vuelidate' },
   ],
   /*
   ** Build configuration

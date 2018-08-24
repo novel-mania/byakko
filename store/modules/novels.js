@@ -8,7 +8,7 @@ const mutations = {
     }
   },
   [NOVELS](state, data) {
-    if (data && typeof data === 'object' && data.length) {
+    if (data && Array.isArray(data)) {
       state.novels = data;
     }
   },

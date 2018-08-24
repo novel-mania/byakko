@@ -24,18 +24,18 @@
           <b-table-column label="Opções">
             <b-field>
               <p class="control">
-                <button class="button" @click.prevent="showChapters(props.row.id)">
-                  <b-icon icon="view-list"></b-icon>
+                <button class="button" @click.prevent.stop="showChapters(props.row.id)">
+                  <b-icon icon="view-list" />
                 </button>
               </p>
               <p class="control">
                 <button class="button">
-                  <b-icon icon="pencil"></b-icon>
+                  <b-icon icon="pencil" />
                 </button>
               </p>
               <p class="control">
                 <button class="button">
-                  <b-icon icon="delete" type="is-danger"></b-icon>
+                  <b-icon icon="delete" type="is-danger" />
                 </button>
               </p>
             </b-field>

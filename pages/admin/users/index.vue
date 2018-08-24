@@ -28,13 +28,13 @@
           <b-table-column label="Opções">
             <b-field>
               <p class="control">
-                <button class="button">
-                  <b-icon icon="pencil"></b-icon>
+                <button class="button" @click.prevent.stop="editUser(props.row.id)">
+                  <b-icon icon="pencil" />
                 </button>
               </p>
               <p class="control">
                 <button class="button">
-                  <b-icon icon="delete" type="is-danger"></b-icon>
+                  <b-icon icon="delete" type="is-danger" />
                 </button>
               </p>
             </b-field>
@@ -62,6 +62,9 @@ export default {
     ]),
     async loadUsers() {
       await this.fetchUsers();
+    },
+    editUser(userId) {
+      this.$router.push({ name: 'admin-users-id', params: { id: userId } });
     },
   },
   mounted() {

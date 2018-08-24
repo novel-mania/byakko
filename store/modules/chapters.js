@@ -12,7 +12,7 @@ const mutations = {
     }
   },
   [CHAPTERS](state, data) {
-    if (data && typeof data === 'object') {
+    if (data && Array.isArray(data)) {
       state.chapters = data;
     }
   },
