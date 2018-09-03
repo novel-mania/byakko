@@ -55,6 +55,7 @@
               <option
                 v-for="role in roles"
                 :key="role.id"
+                :value="role.id"
               >
                 {{ role.name }}
               </option>
@@ -75,7 +76,7 @@ export default {
   layout: 'admin',
   data() {
     const roles = [
-      { id: 1, name: 'Administrador(a)' },
+      { id: '5b86e1c30370530ab24e04e7', name: 'Administrador(a)' },
       { id: 2, name: 'Coordenador(a)' },
       { id: 3, name: 'Tradutor(a)' },
       { id: 4, name: 'Revisor(a)' },

@@ -36,14 +36,73 @@
         </b-field>
         <b-field grouped>
           <b-field
-            label="Sinopse"
+            label="Nomes Alternativos"
             expanded
-            :type="isInvalid('sinopse') ? 'is-danger' : ''"
-            :message="isInvalid('sinopse')
-              ? 'Sinopse é um campo obrigatório.' : ''"
+            :type="isInvalid('alternatives_title') ? 'is-danger' : ''"
+            :message="isInvalid('alternatives_title')
+              ? 'Nomes Alternativos é um campo obrigatório.' : ''"
           >
-            <b-input v-model="novel.sinopse" />
+            <b-input v-model="novel.alternatives_title" />
           </b-field>
+          <b-field
+            label="Tipo"
+          >
+            <b-select v-model="novel.type" placeholder="Selecione o tipo da novel">
+              <option
+                v-for="type in types"
+                :key="type.id"
+                :value="type.name"
+              >
+                {{ type.name }}
+              </option>
+            </b-select>
+          </b-field>
+        </b-field>
+        <b-field grouped>
+          <b-field
+            expanded
+            label="Autores"
+            :type="isInvalid('authors') ? 'is-danger' : ''"
+            :message="isInvalid('authors')
+              ? 'Autores é um campo obrigatório.' : ''"
+          >
+            <b-taginput
+              autocomplete
+              allow-new
+              v-model="novel.authors"
+              icon="person"
+              placeholder="Adicione um autor"
+            />
+          </b-field>
+          <b-field
+            expanded
+            label="Categorias"
+            :type="isInvalid('categories') ? 'is-danger' : ''"
+            :message="isInvalid('categories')
+              ? 'Categorias é um campo obrigatório.' : ''"
+          >
+            <b-taginput
+              autocomplete
+              allow-new
+              v-model="novel.categories"
+              icon="person"
+              placeholder="Adicione um autor"
+            />
+          </b-field>
+          <b-field
+            label="Classificação"
+            :type="isInvalid('advisory_rating') ? 'is-danger' : ''"
+            :message="isInvalid('advisory_rating')
+              ? 'Classificação é um campo obrigatório.' : ''"
+          >
+            <b-switch v-model="novel.advisory_rating" />
+          </b-field>
+        </b-field>
+        <b-field label="Sinopse">
+          <div
+            class="quill-editor"
+            v-quill:myQuillEditor="editorOption"
+          />
         </b-field>
       </form>
     </div>
@@ -58,14 +117,27 @@ export default {
   name: 'AdminUser',
   layout: 'admin',
   data() {
+    const types = [
+      { id: 1, name: 'Chinesa' },
+      { id: 2, name: 'Coreana' },
+      { id: 3, name: 'Japonesa' },
+      { id: 4, name: 'Original' },
+    ];
     const novel = {
       name: '',
       slug: '',
+      alternatives_title: '',
+      type: '',
+      authors: [],
+      categories: [],
+      advisory_rating: false,
       sinopse: '',
     };
 
     return {
+      types,
       novel,
+      editorOption: {},
     };
   },
   validations: {
@@ -73,6 +145,11 @@ export default {
       name: { required },
       slug: { required },
       sinopse: { required },
+      alternatives_title: { required },
+      type: { required },
+      authors: { required },
+      categories: { required },
+      advisory_rating: { required },
     },
   },
   computed: {

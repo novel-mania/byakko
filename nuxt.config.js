@@ -21,6 +21,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/buefy', ssr: false },
     { src: '~/plugins/vuelidate' },
+    { src: '~/plugins/quill', ssr: false },
   ],
   /*
   ** Build configuration
