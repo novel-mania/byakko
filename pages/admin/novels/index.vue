@@ -29,7 +29,7 @@
                 </button>
               </p>
               <p class="control">
-                <button class="button">
+                <button class="button" @click.prevent.stop="editNovel(props.row.id)">
                   <b-icon icon="pencil" />
                 </button>
               </p>
@@ -68,6 +68,9 @@ export default {
     showChapters(novel) {
       this.addChaptersFilter({ name: 'novel', value: novel });
       this.$router.push('/admin/chapters');
+    },
+    editNovel(novelId) {
+      this.$router.push({ name: 'admin-novels-id', params: { id: novelId } });
     },
   },
   mounted() {

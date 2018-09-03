@@ -1,8 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable camelcase */
 import * as mutations from './mutation-types';
-import { getAll as getNovels } from '~/resources/novels';
-import { getAll as getChapters } from '~/resources/chapters';
+import { 
+  getAll as getNovels,
+  getById as getNovel,
+  update as patchNovel
+} from '~/resources/novels';
+import { 
+  getAll as getChapters,
+  getById as getChapter,
+  update as patchChapter,
+} from '~/resources/chapters';
 import {
   getAll as getUsers,
   getById as getUser,
@@ -15,9 +23,31 @@ export const fetchNovels = async ({ commit }) => {
   commit(mutations.NOVELS, novels.data.data);
 };
 
+export const fetchNovel = async ({ commit }, novelId) => {
+  const novel = await getNovel(novelId);
+  commit(mutations.NOVEL, novel.data.data);
+};
+
+export const updateNovel = async ({ commit, state }, novelData) => {
+  const novelId = state.novels.novel.id;
+  const novel = await patchNovel(novelId, novelData);
+  commit(mutations.NOVEL, novel.data.data);
+};
+
 export const fetchChapters = async ({ commit }, filters) => {
   const chapters = await getChapters(filters);
   commit(mutations.CHAPTERS, chapters.data.data);
+};
+
+export const fetchChapter = async ({ commit }, chapterId) => {
+  const chapter = await getChapter(chapterId);
+  commit(mutations.CHAPTER, chapter.data.data);
+};
+
+export const updateChapter = async ({ commit, state }, chapterData) => {
+  const chapterId = state.chapters.chapter.id;
+  const chapter = await patchChapter(chapterId, chapterData);
+  commit(mutations.CHAPTER, chapter.data.data);
 };
 
 export const addChaptersFilter = ({commit}, filter) =>

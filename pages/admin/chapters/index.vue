@@ -18,7 +18,7 @@
           </b-table-column>
 
           <b-table-column label="Novel">
-            {{ props.row.novel.name }}
+            {{ props.row.novel }}
           </b-table-column>
 
           <b-table-column label="Tradutores">
@@ -28,8 +28,8 @@
           <b-table-column label="Opções">
             <b-field>
               <p class="control">
-                <button class="button">
-                  <b-icon icon="pencil"></b-icon>
+                <button class="button" @click.prevent.stop="editChapter(props.row.id)">
+                  <b-icon icon="pencil" />
                 </button>
               </p>
               <p class="control">
@@ -63,6 +63,9 @@ export default {
     ]),
     async loadChapters() {
       await this.fetchChapters(this.filters);
+    },
+    editChapter(chapterId) {
+      this.$router.push({ name: 'admin-chapters-id', params: { id: chapterId } });
     },
   },
   mounted() {

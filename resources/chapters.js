@@ -5,4 +5,5 @@ export const getAll = (filters) => {
     accumulator += `${filter.name}=${filter.value}`, '');
   return http.get(`/chapters?${query}`);
 };
-export const getById = (novel, id) => http.get(`/novel/${novel}/chapters/${id}`);
+export const getById = id => http.get(`/chapters/${id}`);
+export const update = (id, user) => http.patch(`/chapters/${id}`, user);
