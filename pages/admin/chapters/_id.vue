@@ -35,6 +35,57 @@
             <b-input v-model="chapter.chapter_num" placeholder="Exemplo: 123" />
           </b-field>
         </b-field>
+        <!-- <b-field grouped>
+          <b-field
+            label="Nome do volume"
+            expanded
+            :type="isInvalid('volume.name') ? 'is-danger' : ''"
+            :message="isInvalid('volume.name')
+              ? 'Nome do capítulo é um campo obrigatório.' : ''"
+          >
+            <b-input v-model="chapter.volume.name" placeholder="Exemplo: 123" />
+          </b-field>
+            label="Número do volume"
+            expanded
+            :type="isInvalid('volume.volume_num') ? 'is-danger' : ''"
+            :message="isInvalid('volume.volume_num')
+              ? 'Número do volume é um campo obrigatório.' : ''"
+          >
+            <b-input v-model="chapter.volume.volume_num" placeholder="Exemplo: 123" />
+          </b-field> -->
+        <b-field grouped>
+          <b-field
+            label="Tradutores"
+            expanded
+            :type="isInvalid('translators') ? 'is-danger' : ''"
+            :message="isInvalid('translators')
+              ? 'Tradutores é um campo obrigatório.' : ''"
+          >
+            <b-taginput
+              autocomplete
+              allow-new
+              v-model="chapter.translators"
+              icon="account"
+              placeholder="Adicionar um tradutor"
+            />
+          </b-field>
+          <b-field
+            label="Revisores"
+            expanded
+            :type="isInvalid('editors') ? 'is-danger' : ''"
+            :message="isInvalid('editors')
+              ? 'Revisores é um campo obrigatório.' : ''"
+          >
+            <b-taginput
+              expanded
+              autocomplete
+              allow-new
+              v-model="chapter.editors"
+              icon="account"
+              placeholder="Adicionar um Revisor"
+            />
+          </b-field>
+        </b-field>
         <b-field grouped>
           <b-field
             label="Conteúdo"
@@ -43,7 +94,10 @@
             :message="isInvalid('content')
               ? 'Conteúdo é um campo obrigatório.' : ''"
           >
-            <b-input v-model="chapter.content" />
+            <div
+            class="quill-editor"
+            v-quill:myQuillEditor="editorOption"
+            />
           </b-field>
         </b-field>
       </form>
@@ -63,10 +117,17 @@ export default {
       name: '',
       chapter_num: '',
       content: '',
+      translators: [],
+      editors: [],
+      volume: {
+        name: '',
+        volume_num: '',
+      }
     };
 
     return {
       chapter,
+        editorOption: {},
     };
   },
   validations: {
@@ -74,6 +135,12 @@ export default {
       name: { required },
       chapter_num: { required },
       content: { required },
+      translators: { required },
+      editors: { required },
+      volume: { 
+        name: { required },
+        volume_num: { required },
+       }
     },
   },
   computed: {

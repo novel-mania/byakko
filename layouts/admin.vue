@@ -63,6 +63,12 @@ $table-background-color: #fafafa;
 .view {
   background-color: #fafafa;
 };
+
+.quill-editor {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
 </style>
 
 
