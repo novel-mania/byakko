@@ -9,20 +9,24 @@
     <div class="content">
       <b-table :data="chapters">
         <template slot-scope="props">
-          <b-table-column label="id">
+          <!-- <b-table-column label="id">
             {{ props.row.id }}
-          </b-table-column>
+          </b-table-column> -->
 
           <b-table-column label="Nome">
             {{ props.row.name }}
           </b-table-column>
 
           <b-table-column label="Novel">
-            {{ props.row.novel }}
+            {{ props.row.novel.name }}
           </b-table-column>
 
           <b-table-column label="Tradutores">
-            {{ props.row.translators.join(',') }}
+            {{ props.row.translators.map(tranlator => tranlator.name).join(',') }}
+          </b-table-column>
+          
+          <b-table-column label="Revisores">
+            {{ props.row.editors.map(editor => editor.name).join(',') }}
           </b-table-column>
 
           <b-table-column label="Opções">

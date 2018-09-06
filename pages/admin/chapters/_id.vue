@@ -83,12 +83,12 @@
             <b-taginput
               autocomplete
               :allow-new="false"
-              :data="dataReviewers"
+              :data="dataEditors"
               field="name"
-              v-model="reviewers"
+              v-model="editors"
               icon="account"
               placeholder="Adicionar um revisor"
-              @typing="getFilteredReviewers"
+              @typing="getFilteredEditors"
             />
           </b-field>
         </b-field>
@@ -129,19 +129,18 @@ export default {
       name: '',
       chapter_num: '',
       content: '',
-      editors: [],
       volume: {
         name: '',
         volume_num: '',
       },
       translators: [],
+      editors: [],
       optionsTranslators: [],
-      reviewers: [],
-      optionsReviewers: [],
+      optionsEditors: [],
       volumes,
       editorOption: {},
       filterTranslators: '',
-      filterReviewers: '',
+      filterEditors: '',
     };
   },
   validations: {
@@ -167,12 +166,12 @@ export default {
       }
       return this.optionsTranslators;
     },
-    dataReviewers() {
-      if (this.filterReviewers) {
-        return this.optionsReviewers.filter(user =>
-          user.name.toLowerCase().indexOf(this.filterReviewers.toLowerCase()) > -1);
+    dataEditors() {
+      if (this.filterEditors) {
+        return this.optionsEditors.filter(user =>
+          user.name.toLowerCase().indexOf(this.filterEditors.toLowerCase()) > -1);
       }
-      return this.optionsReviewers;
+      return this.optionsEditors;
     },
   },
   watch: {
@@ -182,7 +181,7 @@ export default {
         this.chapter_num = chapter.chapter_num;
         this.content = chapter.content;
         this.translators = [...chapter.translators];
-        this.reviewers = [...chapter.reviewers];
+        this.editors = [...chapter.editors];
       }
     }
   },
@@ -197,7 +196,7 @@ export default {
       await this.fetchRole('5b909c8444593a02bfc2c624');
       this.optionsTranslators = this.getRole.users;
       await this.fetchRole('5b90af0e30220b07670d0839');
-      this.optionsReviewers = this.getRole.users;
+      this.optionsEditors = this.getRole.users;
     },
     isInvalid(field, volume) {
       const validate = volume ? this.$v[field][volume] : this.$v[field];
@@ -206,8 +205,8 @@ export default {
     getFilteredTranslators(text) {
       this.filterTranslators = text;
     },
-    getFilteredReviewers(text) {
-      this.filterReviewers = text;
+    getFilteredEditors(text) {
+      this.filterEditors = text;
     },
     validate() {
       if (this.$v.$invalid) {
