@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import novels from './modules/novels';
 import chapters from './modules/chapters';
 import users from './modules/users';
+import roles from './modules/roles';
 
 import * as actions from './actions';
 import * as getters from './getters';
@@ -15,6 +16,7 @@ const createStore = () => {
       novels,
       chapters,
       users,
+      roles,
     },
     strict: true,
   });

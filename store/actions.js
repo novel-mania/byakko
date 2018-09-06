@@ -1,12 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable camelcase */
 import * as mutations from './mutation-types';
-import { 
+import {
   getAll as getNovels,
   getById as getNovel,
   update as patchNovel
 } from '~/resources/novels';
-import { 
+import {
   getAll as getChapters,
   getById as getChapter,
   update as patchChapter,
@@ -16,6 +16,10 @@ import {
   getById as getUser,
   update as patchUser,
 } from '~/resources/users';
+import {
+  getAll as getRoles,
+  getById as getRole,
+} from '~/resources/roles';
 
 
 export const fetchNovels = async ({ commit }) => {
@@ -67,4 +71,14 @@ export const updateUser = async ({ commit, state }, userData) => {
   const userId = state.users.user.id;
   const user = await patchUser(userId, userData);
   commit(mutations.USER, user.data.data);
+};
+
+export const fetchRoles = async ({ commit }) => {
+  const roles = await getRoles();
+  commit(mutations.ROLES, roles.data.data);
+};
+
+export const fetchRole = async ({ commit }, roleId) => {
+  const role = await getRole(roleId);
+  commit(mutations.ROLE, role.data.data);
 };

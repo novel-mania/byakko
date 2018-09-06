@@ -6,4 +6,6 @@ export const getChapter = state => state.chapters.chapter;
 export const getChaptersFilters = state => state.chapters.filters;
 export const getUsers = state => state.users.users;
 export const getUser = state => state.users.user;
+export const getRoles = state => state.roles.roles;
+export const getRole = state => state.roles.role;
 

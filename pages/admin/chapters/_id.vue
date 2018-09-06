@@ -23,36 +23,37 @@
             :message="isInvalid('name')
               ? 'Nome é um campo obrigatório.' : ''"
           >
-            <b-input v-model="chapter.name" placeholder="Nome" />
+            <b-input v-model="name" placeholder="Nome" />
           </b-field>
           <b-field
             label="Número do capítulo"
-            expanded
             :type="isInvalid('chapter_num') ? 'is-danger' : ''"
             :message="isInvalid('chapter_num')
               ? 'Número do capítulo é um campo obrigatório.' : ''"
           >
-            <b-input v-model="chapter.chapter_num" placeholder="Exemplo: 123" />
+            <b-input v-model="chapter_num" placeholder="Exemplo: 123" />
+          </b-field>
+          <b-field
+            label="Volume"
+            :type="isInvalid('volume') ? 'is-danger' : ''"
+            :message="isInvalid('volume')
+              ? 'Volume é um campo obrigatório.' : ''"
+          >
+            <b-autocomplete
+              keep-first
+              open-on-focus
+              :data="volumes"
+              field="name"
+              placeholder="Volume"
+            >
+              <template slot="header">
+                <a>
+                  <span>Novo volume...</span>
+                </a>
+              </template>
+            </b-autocomplete>
           </b-field>
         </b-field>
-        <!-- <b-field grouped>
-          <b-field
-            label="Nome do volume"
-            expanded
-            :type="isInvalid('volume.name') ? 'is-danger' : ''"
-            :message="isInvalid('volume.name')
-              ? 'Nome do capítulo é um campo obrigatório.' : ''"
-          >
-            <b-input v-model="chapter.volume.name" placeholder="Exemplo: 123" />
-          </b-field>
-            label="Número do volume"
-            expanded
-            :type="isInvalid('volume.volume_num') ? 'is-danger' : ''"
-            :message="isInvalid('volume.volume_num')
-              ? 'Número do volume é um campo obrigatório.' : ''"
-          >
-            <b-input v-model="chapter.volume.volume_num" placeholder="Exemplo: 123" />
-          </b-field> -->
         <b-field grouped>
           <b-field
             label="Tradutores"
@@ -63,10 +64,13 @@
           >
             <b-taginput
               autocomplete
-              allow-new
-              v-model="chapter.translators"
+              :allow-new="false"
+              :data="dataTranslators"
+              field="name"
+              v-model="translators"
               icon="account"
               placeholder="Adicionar um tradutor"
+              @typing="getFilteredTranslators"
             />
           </b-field>
           <b-field
@@ -77,12 +81,14 @@
               ? 'Revisores é um campo obrigatório.' : ''"
           >
             <b-taginput
-              expanded
               autocomplete
-              allow-new
-              v-model="chapter.editors"
+              :allow-new="false"
+              :data="dataReviewers"
+              field="name"
+              v-model="reviewers"
               icon="account"
-              placeholder="Adicionar um Revisor"
+              placeholder="Adicionar um revisor"
+              @typing="getFilteredReviewers"
             />
           </b-field>
         </b-field>
@@ -113,56 +119,99 @@ export default {
   name: 'AdminUser',
   layout: 'admin',
   data() {
-    const chapter = {
+    const volumes = [
+      { volume_num: 1, name: 'O início' },
+      { volume_num: 2, name: 'O meio' },
+      { volume_num: 3, name: 'O fim' },
+    ];
+
+    return {
       name: '',
       chapter_num: '',
       content: '',
-      translators: [],
       editors: [],
       volume: {
         name: '',
         volume_num: '',
-      }
-    };
-
-    return {
-      chapter,
-        editorOption: {},
+      },
+      translators: [],
+      optionsTranslators: [],
+      reviewers: [],
+      optionsReviewers: [],
+      volumes,
+      editorOption: {},
+      filterTranslators: '',
+      filterReviewers: '',
     };
   },
   validations: {
-    chapter: {
+    name: { required },
+    chapter_num: { required },
+    content: { required },
+    editors: { required },
+    volume: {
       name: { required },
-      chapter_num: { required },
-      content: { required },
-      translators: { required },
-      editors: { required },
-      volume: { 
-        name: { required },
-        volume_num: { required },
-       }
+      volume_num: { required },
     },
+    translators: { required },
   },
   computed: {
     ...mapGetters([
       'getChapter',
+      'getRole',
     ]),
+    dataTranslators() {
+      if (this.filterTranslators) {
+        return this.optionsTranslators.filter(user =>
+          user.name.toLowerCase().indexOf(this.filterTranslators.toLowerCase()) > -1);
+      }
+      return this.optionsTranslators;
+    },
+    dataReviewers() {
+      if (this.filterReviewers) {
+        return this.optionsReviewers.filter(user =>
+          user.name.toLowerCase().indexOf(this.filterReviewers.toLowerCase()) > -1);
+      }
+      return this.optionsReviewers;
+    },
+  },
+  watch: {
+    getChapter(chapter) {
+      if (chapter) {
+        this.name = chapter.name;
+        this.chapter_num = chapter.chapter_num;
+        this.content = chapter.content;
+        this.translators = [...chapter.translators];
+        this.reviewers = [...chapter.reviewers];
+      }
+    }
   },
   methods: {
     ...mapActions([
       'fetchChapter',
+      'fetchRole',
       'updateChapter',
     ]),
     async loadChapter(chapterId) {
       await this.fetchChapter(chapterId);
-      this.chapter = Object.assign({}, this.getChapter);
+      await this.fetchRole('5b909c8444593a02bfc2c624');
+      this.optionsTranslators = this.getRole.users;
+      await this.fetchRole('5b90af0e30220b07670d0839');
+      this.optionsReviewers = this.getRole.users;
     },
-    isInvalid(field) {
-      return (this.$v.chapter[field].$invalid && this.$v.chapter[field].$dirty);
+    isInvalid(field, volume) {
+      const validate = volume ? this.$v[field][volume] : this.$v[field];
+      return (validate.$invalid && validate.$dirty);
+    },
+    getFilteredTranslators(text) {
+      this.filterTranslators = text;
+    },
+    getFilteredReviewers(text) {
+      this.filterReviewers = text;
     },
     validate() {
-      if (this.$v.chapter.$invalid) {
-        this.$v.chapter.$touch();
+      if (this.$v.$invalid) {
+        this.$v.$touch();
         return false;
       }
       return true;

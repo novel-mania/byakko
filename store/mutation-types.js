@@ -9,3 +9,6 @@ export const CHAPTER_FILTERS_ADD = 'CHAPTER_FILTERS_ADD';
 
 export const USER = 'USER';
 export const USERS = 'USERS';
+
+export const ROLE = 'ROLE';
+export const ROLES = 'ROLES';
