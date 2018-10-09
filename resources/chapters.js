@@ -6,4 +6,5 @@ export const getAll = (filters) => {
   return http.get(`/chapters?${query}`);
 };
 export const getById = id => http.get(`/chapters/${id}`);
-export const update = (id, user) => http.patch(`/chapters/${id}`, user);
+export const create = (novel, chapter) => http.post(`/novels/${novel}/chapters`, chapter);
+export const update = (id, chapter) => http.patch(`/chapters/${id}`, chapter);

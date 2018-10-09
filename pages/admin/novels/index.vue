@@ -4,24 +4,29 @@
       <div class="level-left">
         <div class="level-item"><h1>Novels</h1></div>
       </div>
-      <div class="level-right"></div>
+      <div class="level-right">
+        <button
+          class="button is-primary is-medium"
+          @click.prevent.stop="editNovel('add')"
+        >Nova</button>
+      </div>
     </div>
     <div class="content">
       <b-table :data="novels">
         <template slot-scope="props">
-          <b-table-column label="id">
-            {{ props.row.id }}
-          </b-table-column>
-
           <b-table-column label="Nome">
             {{ props.row.name }}
           </b-table-column>
 
-          <b-table-column label="Categorias">
-            {{ props.row.categories.join(',') }}
+          <b-table-column label="Tipo">
+            {{ props.row.type }}
           </b-table-column>
 
-          <b-table-column label="Opções">
+          <b-table-column label="Categorias">
+            {{ props.row.categories.join(', ') }}
+          </b-table-column>
+
+          <b-table-column label="Opções" width="130">
             <b-field>
               <p class="control">
                 <button class="button" @click.prevent.stop="showChapters(props.row.id)">

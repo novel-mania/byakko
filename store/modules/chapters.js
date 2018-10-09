@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import {
   CHAPTER,
+  CLEAR_CHAPTER,
   CHAPTERS,
   CHAPTER_FILTERS_ADD,
 } from '../mutation-types';
@@ -10,6 +11,17 @@ const mutations = {
     if (data && typeof data === 'object') {
       state.chapter = data;
     }
+  },
+  [ADD_CHAPTER](state, novel) {
+    state.chapter.id = '';
+    state.chapter.novel = novel;
+    state.chapter.name = '';
+    state.chapter.chapter_num = '';
+    state.chapter.content = '';
+    state.chapter.translators = [];
+    state.chapter.editors = [];
+    state.chapter.volume.number = '';
+    state.chapter.volume.name = '';
   },
   [CHAPTERS](state, data) {
     if (data && Array.isArray(data)) {

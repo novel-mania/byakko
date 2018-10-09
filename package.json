@@ -47,6 +47,7 @@
     "babel-eslint": "^8.2.1",
     "buefy": "^0.6.6",
     "bulma-badge": "^2.0.0",
+    "bulma-carousel": "^3.0.0",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",

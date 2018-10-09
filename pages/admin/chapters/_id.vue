@@ -23,7 +23,7 @@
             :message="isInvalid('name')
               ? 'Nome é um campo obrigatório.' : ''"
           >
-            <b-input v-model="name" placeholder="Nome" />
+            <b-input v-model="chapter.name" placeholder="Nome" />
           </b-field>
           <b-field
             label="Número do capítulo"
@@ -31,20 +31,22 @@
             :message="isInvalid('chapter_num')
               ? 'Número do capítulo é um campo obrigatório.' : ''"
           >
-            <b-input v-model="chapter_num" placeholder="Exemplo: 123" />
+            <b-input v-model="chapter.chapter_num" placeholder="Exemplo: 123" />
           </b-field>
           <b-field
             label="Volume"
-            :type="isInvalid('volume') ? 'is-danger' : ''"
-            :message="isInvalid('volume')
+            :type="isInvalid('volume', 'name') ? 'is-danger' : ''"
+            :message="isInvalid('volume', 'name')
               ? 'Volume é um campo obrigatório.' : ''"
           >
             <b-autocomplete
               keep-first
               open-on-focus
-              :data="volumes"
               field="name"
               placeholder="Volume"
+              :data="volumes"
+              :value="chapter.volume.name"
+              @select="selectVolume"
             >
               <template slot="header">
                 <a>
@@ -67,7 +69,7 @@
               :allow-new="false"
               :data="dataTranslators"
               field="name"
-              v-model="translators"
+              v-model="chapter.translators"
               icon="account"
               placeholder="Adicionar um tradutor"
               @typing="getFilteredTranslators"
@@ -85,7 +87,7 @@
               :allow-new="false"
               :data="dataEditors"
               field="name"
-              v-model="editors"
+              v-model="chapter.editors"
               icon="account"
               placeholder="Adicionar um revisor"
               @typing="getFilteredEditors"
@@ -101,8 +103,10 @@
               ? 'Conteúdo é um campo obrigatório.' : ''"
           >
             <div
-            class="quill-editor"
-            v-quill:myQuillEditor="editorOption"
+              class="quill-editor"
+              v-quill:myQuillEditor="editorOption"
+              :content="chapter.content"
+              @change="onEditorChange($event)"
             />
           </b-field>
         </b-field>
@@ -116,43 +120,48 @@ import { mapActions, mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
 
 export default {
-  name: 'AdminUser',
+  name: 'AdminChapter',
   layout: 'admin',
   data() {
     const volumes = [
-      { volume_num: 1, name: 'O início' },
-      { volume_num: 2, name: 'O meio' },
-      { volume_num: 3, name: 'O fim' },
+      { number: 1, name: 'O início' },
+      { number: 2, name: 'O meio' },
+      { number: 3, name: 'O fim' },
     ];
-
-    return {
+    const chapter = {
       name: '',
       chapter_num: '',
       content: '',
       volume: {
         name: '',
-        volume_num: '',
+        number: '',
       },
       translators: [],
       editors: [],
+    };
+
+    return {
+      chapter,
+      volumes,
       optionsTranslators: [],
       optionsEditors: [],
-      volumes,
       editorOption: {},
       filterTranslators: '',
       filterEditors: '',
     };
   },
   validations: {
-    name: { required },
-    chapter_num: { required },
-    content: { required },
-    editors: { required },
-    volume: {
+    chapter: {
       name: { required },
-      volume_num: { required },
-    },
-    translators: { required },
+      chapter_num: { required },
+      content: { required },
+      editors: { required },
+      volume: {
+        name: { required },
+        number: { required },
+      },
+      translators: { required },
+    }
   },
   computed: {
     ...mapGetters([
@@ -177,29 +186,35 @@ export default {
   watch: {
     getChapter(chapter) {
       if (chapter) {
-        this.name = chapter.name;
-        this.chapter_num = chapter.chapter_num;
-        this.content = chapter.content;
-        this.translators = [...chapter.translators];
-        this.editors = [...chapter.editors];
+        this.chapter.name = chapter.name;
+        this.chapter.chapter_num = chapter.chapter_num;
+        this.chapter.content = chapter.content;
+        this.chapter.translators = [...chapter.translators];
+        this.chapter.editors = [...chapter.editors];
+        this.chapter.volume.number = chapter.volume.number;
+        this.chapter.volume.name = chapter.volume.name;
       }
     }
   },
   methods: {
     ...mapActions([
+      'clearChapter',
       'fetchChapter',
       'fetchRole',
+      'newChapter',
       'updateChapter',
     ]),
     async loadChapter(chapterId) {
       await this.fetchChapter(chapterId);
+    },
+    async setupView() {
       await this.fetchRole('5b909c8444593a02bfc2c624');
       this.optionsTranslators = this.getRole.users;
       await this.fetchRole('5b90af0e30220b07670d0839');
       this.optionsEditors = this.getRole.users;
     },
     isInvalid(field, volume) {
-      const validate = volume ? this.$v[field][volume] : this.$v[field];
+      const validate = volume ? this.$v.chapter[field][volume] : this.$v.chapter[field];
       return (validate.$invalid && validate.$dirty);
     },
     getFilteredTranslators(text) {
@@ -207,6 +222,15 @@ export default {
     },
     getFilteredEditors(text) {
       this.filterEditors = text;
+    },
+    selectVolume(volume) {
+      if (volume) {
+        this.chapter.volume.name = volume.name;
+        this.chapter.volume.number = volume.number;
+      }
+    },
+    onEditorChange(event) {
+      this.chapter.content = event.html;
     },
     validate() {
       if (this.$v.$invalid) {
@@ -218,15 +242,25 @@ export default {
     async saveChapter() {
       if (this.validate()) {
         const dataChapter = Object.assign({}, this.chapter);
+        dataChapter.translators = dataChapter.translators.map(translator => translator.id);
+        dataChapter.editors = dataChapter.editors.map(editor => editor.id);
         try {
-          await this.updateChapter(dataChapter);
-          this.$toast.open({
-            message: 'Capítulo atualizado!',
-            type: 'is-success',
-          });
+          if (this.getChapter.id) {
+            await this.updateChapter(dataChapter);
+            this.$toast.open({
+              message: 'Capítulo atualizado!',
+              type: 'is-success',
+            });
+          } else {
+            await this.newChapter(dataChapter);
+            this.$toast.open({
+              message: 'Capítulo criado!',
+              type: 'is-success',
+            });
+          }
         } catch (error) {
           this.$toast.open({
-            message: 'Ocorreu um erro ao atualizar o capítulo.',
+            message: 'Ocorreu um erro.',
             type: 'is-danger',
           });
         }
@@ -234,7 +268,10 @@ export default {
     },
   },
   mounted() {
-    this.loadChapter(this.$route.params.id);
+    if (this.$route.params.id !== 'add') {
+      this.loadChapter(this.$route.params.id);
+    }
+    this.setupView();
   },
 };
 </script>

@@ -38,11 +38,13 @@
           <b-field
             label="Nomes Alternativos"
             expanded
-            :type="isInvalid('alternatives_title') ? 'is-danger' : ''"
-            :message="isInvalid('alternatives_title')
-              ? 'Nomes Alternativos é um campo obrigatório.' : ''"
           >
-            <b-input v-model="novel.alternatives_title" />
+            <b-taginput
+              autocomplete
+              allow-new
+              v-model="novel.alternatives_titles"
+              placeholder="Adicione um nome alternativo"
+            />
           </b-field>
           <b-field
             label="Tipo"
@@ -70,7 +72,6 @@
               autocomplete
               allow-new
               v-model="novel.authors"
-              icon="person"
               placeholder="Adicione um autor"
             />
           </b-field>
@@ -85,8 +86,7 @@
               autocomplete
               allow-new
               v-model="novel.categories"
-              icon="person"
-              placeholder="Adicione um autor"
+              placeholder="Adicione uma categoria"
             />
           </b-field>
           <b-field
@@ -98,10 +98,20 @@
             <b-switch v-model="novel.advisory_rating" />
           </b-field>
         </b-field>
+        <b-field label="Capa">
+          <b-upload v-model="file">
+            <a class="button is-primary">
+              <b-icon icon="upload"></b-icon>
+              <span>Escolher capa</span>
+            </a>
+          </b-upload>
+        </b-field>
         <b-field label="Sinopse">
           <div
             class="quill-editor"
             v-quill:myQuillEditor="editorOption"
+            :content="novel.sinopse"
+            @change="onEditorChange($event)"
           />
         </b-field>
       </form>
@@ -126,10 +136,10 @@ export default {
     const novel = {
       name: '',
       slug: '',
-      alternatives_title: '',
       type: '',
       authors: [],
       categories: [],
+      alternatives_titles: [],
       advisory_rating: false,
       sinopse: '',
     };
@@ -137,6 +147,7 @@ export default {
     return {
       types,
       novel,
+      file: [],
       editorOption: {},
     };
   },
@@ -145,7 +156,6 @@ export default {
       name: { required },
       slug: { required },
       sinopse: { required },
-      alternatives_title: { required },
       type: { required },
       authors: { required },
       categories: { required },
@@ -157,14 +167,32 @@ export default {
       'getNovel',
     ]),
   },
+  watch: {
+    getNovel(novel) {
+      if (novel) {
+        this.novel.name = novel.name;
+        this.novel.slug = novel.slug;
+        this.novel.sinopse = novel.sinopse;
+        this.novel.type = novel.type;
+        this.novel.advisory_rating = novel.advisory_rating;
+        this.novel.authors = [...novel.authors];
+        this.novel.categories = [...novel.categories];
+        this.novel.alternatives_titles = [...novel.alternatives_titles];
+      }
+    },
+  },
   methods: {
     ...mapActions([
+      'clearNovel',
       'fetchNovel',
+      'newNovel',
       'updateNovel',
     ]),
     async loadNovel(novelId) {
       await this.fetchNovel(novelId);
-      this.novel = Object.assign({}, this.getNovel);
+    },
+    onEditorChange(event) {
+      this.novel.sinopse = event.html;
     },
     isInvalid(field) {
       return (this.$v.novel[field].$invalid && this.$v.novel[field].$dirty);
@@ -180,14 +208,24 @@ export default {
       if (this.validate()) {
         const dataNovel = Object.assign({}, this.novel);
         try {
-          await this.updateNovel(dataNovel);
-          this.$toast.open({
-            message: 'Novel atualizada!',
-            type: 'is-success',
-          });
+          if (this.getNovel.id) {
+            await this.updateNovel(dataNovel);
+            this.$toast.open({
+              message: 'Novel atualizada!',
+              type: 'is-success',
+            });
+          } else {
+            dataNovel.cover = this.file[0].name;
+            await this.newNovel(dataNovel);
+            this.$toast.open({
+              message: 'Novel criada!',
+              type: 'is-success',
+            });
+          }
         } catch (error) {
+          window.console.log(error);
           this.$toast.open({
-            message: 'Ocorreu um erro ao atualizar a novel.',
+            message: 'Ocorreu um erro.',
             type: 'is-danger',
           });
         }
@@ -195,7 +233,11 @@ export default {
     },
   },
   mounted() {
-    this.loadNovel(this.$route.params.id);
+    if (this.$route.params.id === 'add') {
+      this.clearNovel();
+    } else {
+      this.loadNovel(this.$route.params.id);
+    }
   },
 };
 </script>

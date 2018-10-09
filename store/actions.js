@@ -4,11 +4,13 @@ import * as mutations from './mutation-types';
 import {
   getAll as getNovels,
   getById as getNovel,
+  create as createNovel,
   update as patchNovel
 } from '~/resources/novels';
 import {
   getAll as getChapters,
   getById as getChapter,
+  create as createChapter,
   update as patchChapter,
 } from '~/resources/chapters';
 import {
@@ -32,6 +34,13 @@ export const fetchNovel = async ({ commit }, novelId) => {
   commit(mutations.NOVEL, novel.data.data);
 };
 
+export const clearNovel = ({ commit }) => commit(mutations.CLEAR_NOVEL);
+
+export const newNovel = async ({ commit }, novelData) => {
+  const novel = await createNovel(novelData);
+  commit(mutations.NOVEL, novel.data.data);
+};
+
 export const updateNovel = async ({ commit, state }, novelData) => {
   const novelId = state.novels.novel.id;
   const novel = await patchNovel(novelId, novelData);
@@ -45,6 +54,14 @@ export const fetchChapters = async ({ commit }, filters) => {
 
 export const fetchChapter = async ({ commit }, chapterId) => {
   const chapter = await getChapter(chapterId);
+  commit(mutations.CHAPTER, chapter.data.data);
+};
+
+export const addChapter = ({ commit }, novel) => commit(mutations.ADD_CHAPTER, novel);
+
+export const newChapter = async ({ commit, state }, chapterData) => {
+  const novel = state.chapters.chapter.novel;
+  const chapter = await createChapter(novel, chapterData);
   commit(mutations.CHAPTER, chapter.data.data);
 };
 

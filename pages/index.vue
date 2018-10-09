@@ -1,10 +1,10 @@
 <template>
   <main class="home">
     <new-comers />
-    <base-advertinsing class="advertinsing" type="90" />
+    <base-advertinsing class="container has-text-centered" type="90" />
     <recommended />
     <ranking />
-    <base-advertinsing class="advertinsing" type="90" />
+    <base-advertinsing class="container has-text-centered" type="90" />
   </main>
 </template>
 
@@ -24,19 +24,4 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.home {
-  > .advertinsing {
-    max-width: 1000px;
-    width: 100%;
-    padding-right: 20px;
-    padding-left: 20px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-}
-</style>
 

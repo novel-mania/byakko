@@ -25,7 +25,7 @@
             {{ props.row.role }}
           </b-table-column>
 
-          <b-table-column label="Opções">
+          <b-table-column label="Opções" width="130">
             <b-field>
               <p class="control">
                 <button class="button" @click.prevent.stop="editUser(props.row.id)">

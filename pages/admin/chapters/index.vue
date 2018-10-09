@@ -4,15 +4,16 @@
       <div class="level-left">
         <div class="level-item"><h1>Capítulos</h1></div>
       </div>
-      <div class="level-right"></div>
+      <div class="level-right">
+        <button
+          class="button is-primary is-medium"
+          @click.prevent.stop="editChapter('add')"
+        >Novo</button>
+      </div>
     </div>
     <div class="content">
       <b-table :data="chapters">
         <template slot-scope="props">
-          <!-- <b-table-column label="id">
-            {{ props.row.id }}
-          </b-table-column> -->
-
           <b-table-column label="Nome">
             {{ props.row.name }}
           </b-table-column>
@@ -24,12 +25,12 @@
           <b-table-column label="Tradutores">
             {{ props.row.translators.map(tranlator => tranlator.name).join(',') }}
           </b-table-column>
-          
+
           <b-table-column label="Revisores">
             {{ props.row.editors.map(editor => editor.name).join(',') }}
           </b-table-column>
 
-          <b-table-column label="Opções">
+          <b-table-column label="Opções" width="130">
             <b-field>
               <p class="control">
                 <button class="button" @click.prevent.stop="editChapter(props.row.id)">

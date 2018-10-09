@@ -1,6 +1,6 @@
 <template>
   <div class="advertising">
-    <img :src="`img/${image}`" alt="Propaganda">
+    <img :src="`http://localhost:8090/img/${image}`" alt="Propaganda">
   </div>
 </template>
 
